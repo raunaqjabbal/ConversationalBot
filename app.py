@@ -8,11 +8,13 @@ from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate, Me
 from langchain.chains import LLMChain
 from langchain.memory import ConversationBufferMemory
 from langchain.prompts import PromptTemplate
+import os
+
+os.environ["OPENAI_API_KEY"]="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" 
+
+
 
 # template = "You need to be VERY persuasive and friendly with me. Convince me to tell my name, email, phone number, address, date of birth, and education "
-
-OPENAI_KEY = "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"
-
 
 prompt2 = ChatPromptTemplate.from_messages([
         SystemMessage(content="""Only extract personal details like name, email address, phone number, address, date of birth, and educational details from the conversation below. 
@@ -25,15 +27,14 @@ def create():
     st.title("💬 Conversational Chatbot") 
     st.session_state["messages"] = [{"role": "assistant", "content": "Please provide me your details"}]
     
-    llm = OpenAI(temperature=0.8,
-             openai_api_key=OPENAI_KEY)
+    llm = OpenAI(temperature=0.8)
 
     prompt = ChatPromptTemplate.from_messages([
         SystemMessage(content=
                     """Pretend to be AI in this story who is Humans friend and convince Human to tell his name, email, phone number, address, date of birth, and education and other personal information. 
-    You need to be very persuasive. Mail should have a domain name. Birth years after 2023 are invalid. Give 1 sentence reply:"""), 
+    You need to be very persuasive. Mail should have a domain name. Birth years after 2023 are invalid. Tell me what AI should respond with"""), 
         MessagesPlaceholder(variable_name="chat_history"), 
-        HumanMessagePromptTemplate.from_template( template = "{human_input}", role="Friend")
+        HumanMessagePromptTemplate.from_template(template = "{human_input}")
     ])
         
     memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
@@ -58,7 +59,6 @@ for msg in st.session_state.messages:
 
 
 if reply := st.chat_input():
-    openai.api_key = OPENAI_KEY
     st.session_state.messages.append({"role": "user", "content": reply})
     st.chat_message("user").write(reply)
     demo = chain.predict(human_input=reply)

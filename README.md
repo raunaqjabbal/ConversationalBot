@@ -1,5 +1,5 @@
 # ConversationalBot
  
 ```
-streamlit run demo.py
+streamlit run app.py
 ```
