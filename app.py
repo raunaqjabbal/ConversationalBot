@@ -10,7 +10,7 @@ from langchain.memory import ConversationBufferMemory
 from langchain.prompts import PromptTemplate
 import os
 
-os.environ["OPENAI_API_KEY"]="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" 
+# os.environ["OPENAI_API_KEY"]="" 
 
 
 
