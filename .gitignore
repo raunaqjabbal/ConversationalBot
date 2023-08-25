@@ -6,7 +6,8 @@ __pycache__/
 # C extensions
 *.so
 .chainlit/
-
+.data/
+data/
 secrets.py
 
 # Distribution / packaging

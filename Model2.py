@@ -11,7 +11,8 @@ from langchain.prompts import PromptTemplate
 import os
 from langchain.chat_models import ChatOpenAI
 
-
+import json
+import time
 # os.environ["OPENAI_API_KEY"]="" 
 
 k=0
@@ -19,6 +20,10 @@ k=0
 st.set_page_config(
         page_title="AI Assistant",
 )
+
+
+if not os.path.exists("data"):
+    os.makedirs("data")
 
 # template = "You need to be VERY persuasive and friendly with me. Convince me to tell my name, email, phone number, address, date of birth, and education "
 
@@ -101,7 +106,12 @@ if st.sidebar.button("End Conversation", key="delfiles"):
         print(ans)
         ans = llm.predict(ans).replace("\n","")
         st.sidebar.write(ans)
+        
+        
+        with open(f"data/{time.time()}.json", "w") as outfile:
+            outfile.write(ans)
     st.stop()
     st.session_state.stop()
     k = 1
     memory.clear()
+    
